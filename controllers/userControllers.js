@@ -64,5 +64,37 @@ module.exports = {
           reject(err);
         });
     });
+  },
+  updateProfile: (req, res) => {
+    return new Promise((resolve, reject) => {
+      User.findById(req.params.id)
+        .then(user => {
+          const { name, email } = req.body;
+          user.name = name ? name : user.name;
+          user.email = email ? email : user.email;
+          user
+            .save()
+            .then(user => {
+              return res.status(200).json({ message: "User updated", user });
+            })
+            .catch(err => {
+              reject(err);
+            });
+        })
+        .catch(err => {
+          res.status(500).json({ message: "Server error", err });
+        });
+    });
+  },
+  deleteProfile: (req, res) => {
+    return new Promise((resolve, reject) => {
+      User.findByIdAndDelete({ _id: req.params.id })
+        .then(user => {
+          return res.status(200).json({ message: "User deleted", user });
+        })
+        .catch(err => {
+          res.status(400).json({ message: "No user to delete" });
+        });
+    });
   }
 };

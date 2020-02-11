@@ -43,31 +43,6 @@ app.put("/update/:id", (req, res) => {
       });
   });
 });
-
-app.delete("/delete/:id", (req, res) => {
-  return new Promise((resolve, reject) => {
-    User.findByIdAndDelete({ _id: req.params.id })
-      .then(user => {
-        return res.status(200).json({ message: "User deleted", user });
-      })
-      .catch(err => {
-        res.status(400).json({ message: "No user to delete" });
-      });
-  });
-});
 app.listen(port, () => {
   console.log(`server is running on ${port}`);
 });
-
-// Place the getAllUsers route in the routes file not the controller
-// Controller names:
-// register
-// login
-// updateProfile
-// deleteProfile
-// Routes:
-// api/users   this one is for the getAllUsers route
-// api/users/register
-// api/users/login
-// api/users/updateProfile
-// api/users/deleteProfile (edited)
